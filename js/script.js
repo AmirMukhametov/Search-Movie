@@ -51,6 +51,10 @@ async function renderMovieItem(movie) {
     const res = await fetch(`${URL}`);
     const data = await res.json();
     console.log(data);
+    if (data.Response === "False") {
+        resultGrid.innerHTML = `<p class="not-found">Фильм не найден :(</p>`;
+        return;
+    }
     const movieItem = document.createElement('div');
     movieItem.classList.add('result-grid');
 
@@ -62,7 +66,7 @@ async function renderMovieItem(movie) {
                         <h3 class="movie-title">${data.Title}</h3>
                         <ul class="movie-misc-info">
                             <li class="year">${data.Year}</li>
-                            <li class="rated">Ratinh: ${data.Rated}</li>
+                            <li class="rated">Rating: ${data.Rated}</li>
                             <li class="released">Released: ${data.Released}</li>
                         </ul>
                         <p class="genre"><b>Genre:</b> ${data.Genre}</p>
@@ -72,6 +76,7 @@ async function renderMovieItem(movie) {
                         <p class="language"><b>Language:</b> ${data.Language}</p>
                     </div>
     `
+    resultGrid.innerHTML = '';
     resultGrid.appendChild(movieItem);
 
     searchList.innerHTML = '';
