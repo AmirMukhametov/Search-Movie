@@ -7,7 +7,8 @@ async function loadMovies(searchTerms) {
     const res = await fetch(`${URL}`);
     const data = await res.json();
     if(data.Response === 'True') {
-        console.log(data)
+        displayMovieList(data.Search);
+        console.log(data.Search)
     }
     
 }
@@ -19,6 +20,17 @@ movieSearchBox.addEventListener('keyup', function(event) {
     } else {
         searchList.innerHTML = ''
     }
+    console.log(searchTerm)
 })
+
+function displayMovieList(movies) {
+    searchList.innerHTML = '';
+    for(let idx = 0; idx < movies.length; idx++) {
+        let movieListItem = document.createElement('div');
+        console.log(movieListItem)
+    }
+}
+
+
 
 
