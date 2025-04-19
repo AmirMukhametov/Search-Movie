@@ -1,9 +1,6 @@
 const movieSearchBox = document.getElementById('movie-search-box'),
     searchList = document.getElementById('search-list'),
-    resultGrid = document.getElementById('result-grid'),
-    listItem = document.querySelector('.search-list-item'),
-    miniPoster = document.querySelector('.search-item-thumbnail'),
-    itemInfo = document.querySelector('.search-item-info');
+    resultGrid = document.getElementById('result-container');
 
 async function loadMovies(searchTerms) {
     const URL = `http://www.omdbapi.com/?s=${searchTerms}&apikey=1662b30a`;
@@ -11,7 +8,6 @@ async function loadMovies(searchTerms) {
     const data = await res.json();
     if(data.Response === 'True') {
         displayMovieList(data.Search);
-        console.log(data.Search)
     }
     
 }
@@ -40,7 +36,44 @@ function displayMovieList(movies) {
                 <p>${movies[idx].Year}</p>
             </div>
         `
-
+        
         searchList.append(movieListItem);
+        movieListItem.addEventListener('click', () => {
+            renderMovieItem(movies[idx].Title)
+        });
+
     }
+
+}
+
+async function renderMovieItem(movie) {
+    const URL = `http://www.omdbapi.com/?t=${movie}&apikey=1662b30a`;
+    const res = await fetch(`${URL}`);
+    const data = await res.json();
+    console.log(data);
+    const movieItem = document.createElement('div');
+    movieItem.classList.add('result-grid');
+
+    movieItem.innerHTML = `
+                    <div class="movie-poster">
+                        <img src="${data.Poster}">
+                    </div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">${data.Title}</h3>
+                        <ul class="movie-misc-info">
+                            <li class="year">${data.Year}</li>
+                            <li class="rated">Ratinh: ${data.Rated}</li>
+                            <li class="released">Released: ${data.Released}</li>
+                        </ul>
+                        <p class="genre"><b>Genre:</b> ${data.Genre}</p>
+                        <p class="writer"><b>Writer:</b> ${data.Writer}</p>
+                        <p class="actors"><b>${data.Actors}</b></p>
+                        <p class="plot">${data.Plot}</p>
+                        <p class="language"><b>Language:</b> ${data.Language}</p>
+                    </div>
+    `
+    resultGrid.appendChild(movieItem);
+
+    searchList.innerHTML = '';
+    movieSearchBox.value = '';
 }
