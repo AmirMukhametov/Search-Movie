@@ -63,7 +63,11 @@ async function renderMovieItem(movie) {
                         <img src="${data.Poster}">
                     </div>
                     <div class="movie-info">
-                        <h3 class="movie-title">${data.Title}</h3>
+                        <div class="movie-header">
+                            <h3 class="movie-title">${data.Title}</h3>
+                            <img class="movie-favorite-heart" src="icons/heartFalse.png" alt="">
+                        </div>
+                        
                         <ul class="movie-misc-info">
                             <li class="year">${data.Year}</li>
                             <li class="rated">Rating: ${data.Rated}</li>
